@@ -1,0 +1,119 @@
+/******************************ADD TODO***************************************/
+.add-todo-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.add-todo-container input[type="text"] {
+  width: 98%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 2rem;
+  margin-bottom: 1rem;
+}
+
+.add-todo-input-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.add-todo-input-container button {
+  background-color: #24a2b8;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 2.2rem;
+}
+
+/*****************************TODO LIST***************************************/
+.todo-list-initial-buttons {
+  display: flex; /* Butonları yan yana koyar */
+  justify-content: space-between; /* Butonlar arasında eşit boşluk bırakır */
+  width: 100%; /* Container'ın genişliğini tam ekran yapar */
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.todo-list-initial-buttons button {
+  flex: 1; /* Butonları eşit genişlikte yapar */
+  margin: 10px 10px 30px; /* Butonlar arasında 10px boşluk bırakır */
+  background-color: #24a2b8;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.todo-list-bottom-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.todo-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.todo-list-bottom-buttons button {
+  flex: 1; /* Butonları eşit genişlikte yapar */
+  margin: 0 10px; /* Butonlar arasında 10px boşluk bırakır */
+  background-color: #d93649;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/*******************************TODO*******************************************/
+.todo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.todo-title {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.todo-title-checked {
+  flex-grow: 1;
+  margin-right: 10px;
+  text-decoration: line-through;
+}
+
+.todo-box input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.todo-box button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#delete {
+  color: red;
+}
+
+#edit {
+  color: orange;
+}
+
+/*******************************UTILS BUTTON**********************************/
