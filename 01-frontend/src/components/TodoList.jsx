@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Todo from "./Todo";
 
 const TodoList = ({
@@ -8,6 +9,17 @@ const TodoList = ({
   setUpdateTodo,
   setUpdatingTodo,
 }) => {
+  const [selectedTodo, setSelectedTodo] = useState(false);
+
+  function handleSetIsDone(id) {
+    const updatedTodos = [...todos];
+    const foundTodo = updatedTodos.find((t) => t.id === id);
+    if (foundTodo) {
+      foundTodo.isDone = !foundTodo.isDone;
+    }
+    setTodos(updatedTodos);
+  }
+
   function handleGetDoneTodos() {
     setTodos(() => todoList.filter((todo) => todo.isDone));
   }
@@ -33,6 +45,15 @@ const TodoList = ({
   function handleSetUpdatingTodo(id) {
     setUpdatingTodo(todoList.find((todo) => todo.id === id));
   }
+
+  function handleSelectedTodo(id) {
+    if (selectedTodo.id !== id) {
+      setSelectedTodo(todoList.find((todo) => todo.id === id));
+    } else {
+      setSelectedTodo(<Todo />);
+    }
+  }
+
   return (
     <div>
       <b>TODO LIST</b>
@@ -50,19 +71,14 @@ const TodoList = ({
               <Todo
                 id={todo.id}
                 isDone={todo.isDone}
-                setIsDone={(value) => {
-                  const updatedTodos = [...todos];
-                  const foundTodo = updatedTodos.find((t) => t.id === todo.id);
-                  if (foundTodo) {
-                    foundTodo.isDone = value;
-                  }
-                  setTodos(updatedTodos);
-                }}
+                setIsDone={handleSetIsDone}
                 task={todo.task}
                 deleteTodo={handleDeleteTodo}
                 updateTodo={handleUpdateTodo}
                 setCanUpdate={setUpdateTodo}
                 setUpdatingTodo={handleSetUpdatingTodo}
+                selectedTodo={selectedTodo}
+                setSelectedTodo={handleSelectedTodo}
               />
             </li>
           ))}
@@ -70,8 +86,8 @@ const TodoList = ({
       </div>
 
       <div className="todo-list-bottom-buttons">
-        <button>Done</button>
-        <button>Todo</button>
+        <button onClick={() => handleSetIsDone(selectedTodo.id)}>Done</button>
+        <button onClick={() => handleSetIsDone(selectedTodo.id)}>Todo</button>
       </div>
     </div>
   );

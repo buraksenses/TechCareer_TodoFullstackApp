@@ -29,6 +29,18 @@
   height: 2.2rem;
 }
 
+#add-todo-button {
+  display: grid;
+  align-items: center;
+  background: #24a2b8;
+  border-radius: 5px;
+  width: 99%;
+  border: 1px solid #ccc;
+  height: 2rem;
+  cursor: pointer;
+  color: white;
+}
+
 /*****************************TODO LIST***************************************/
 .todo-list-initial-buttons {
   display: flex; /* Butonları yan yana koyar */
@@ -89,6 +101,10 @@
 .todo-box:hover {
   cursor: pointer;
   background-color: white;
+}
+
+.selected {
+  background-color: red;
 }
 
 .todo-title {

@@ -1,16 +1,3 @@
-import { useState } from "react";
-
-const buttonStyle = {
-  background: "#24A2B8",
-  "border-radius": 5,
-  "justify-content": "center",
-  width: "99%",
-  border: "1px solid #ccc",
-  height: "2rem",
-  cursor: "pointer",
-  color: "white",
-};
-
 const AddTodo = ({
   newTodo,
   setNewTodo,
@@ -65,7 +52,7 @@ const AddTodo = ({
 
       <button
         onClick={() => (updateTodo ? handleUpdateTodo() : handleAddNewTodo())}
-        style={buttonStyle}
+        id="add-todo-button"
       >
         {updateTodo ? "Update Todo" : "Add New Task"}
       </button>

@@ -6,8 +6,9 @@ const Todo = ({
   deleteTodo,
   updateTodo,
   setCanUpdate,
-  updatingTodo,
   setUpdatingTodo,
+  selectedTodo,
+  setSelectedTodo,
 }) => {
   function handleUpdateClick(id) {
     updateTodo(id);
@@ -15,14 +16,17 @@ const Todo = ({
     setUpdatingTodo(id);
   }
   return (
-    <div className="todo-box">
+    <div
+      className={selectedTodo.id === id ? `todo-box selected` : `todo-box`}
+      onClick={() => setSelectedTodo(id)}
+    >
       <span className={isDone ? "todo-title-checked" : "todo-title"}>
         {task}
       </span>
       <input
         type="checkbox"
         onChange={() => {
-          setIsDone(!isDone);
+          setIsDone(id);
         }}
         checked={isDone}
       />
