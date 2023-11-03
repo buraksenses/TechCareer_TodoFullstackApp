@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class TodoServicesImpl implements ITodoServices<Todo> {
     private TodoRepository todoRepository;
@@ -37,6 +39,11 @@ public class TodoServicesImpl implements ITodoServices<Todo> {
             throw new BurakSensesException("id is null!");
         }
         return todo;
+    }
+
+    @Override
+    public List<Todo> todoServiceFindAll() {
+        return (List<Todo>) todoRepository.findAll();
     }
 
     @Override

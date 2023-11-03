@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Todo from "./Todo";
+import { apiClient } from "./service/TodoService";
 
 const TodoList = ({
   todoList,
@@ -53,6 +54,16 @@ const TodoList = ({
       setSelectedTodo(<Todo />);
     }
   }
+
+  useEffect(function () {
+    async function getTodos() {
+      await apiClient.get("/todos").then((response) => {
+        console.log(response.data);
+        setTodos(response.data);
+      });
+    }
+    getTodos();
+  }, []);
 
   return (
     <div>

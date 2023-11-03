@@ -11,6 +11,8 @@ public interface ITodoApi<E>{
     // FIND
     public ResponseEntity<?> registerApiFindById(Long id);
 
+    public ResponseEntity<?> registerApiFindAll();
+
     // UPDATE
     public ResponseEntity<?> registerApiUpdate(Long id, E e);
 

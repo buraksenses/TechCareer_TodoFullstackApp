@@ -23,7 +23,7 @@ const todoList = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(todoList);
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [updateTodo, setUpdateTodo] = useState(false);
   const [updatingTodo, setUpdatingTodo] = useState({});
