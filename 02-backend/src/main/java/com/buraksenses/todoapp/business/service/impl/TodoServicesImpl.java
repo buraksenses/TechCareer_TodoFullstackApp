@@ -51,11 +51,13 @@ public class TodoServicesImpl implements ITodoServices<Todo> {
     public Todo todoServiceUpdate(Long id, Todo todo) {
         Todo updatingTodo = todoServiceFindById(id);
         if (updatingTodo != null) {
+            updatingTodo.setDone(todo.isDone());
             updatingTodo.setTask(todo.getTask());
             todoRepository.save(updatingTodo);
             return updatingTodo;
         }
-        throw new Resource404NotFoundException("There is not any todo which has id of " + id);
+        else
+            throw new Resource404NotFoundException("There is not any todo which has id of " + id);
     }
 
     @Override
@@ -64,6 +66,7 @@ public class TodoServicesImpl implements ITodoServices<Todo> {
         Todo todo = todoServiceFindById(id);
         if (todo != null) {
             todoRepository.deleteById(id);
+            return todo;
         }
         throw new Resource404NotFoundException("There is not any todo which has id of " + id);
     }

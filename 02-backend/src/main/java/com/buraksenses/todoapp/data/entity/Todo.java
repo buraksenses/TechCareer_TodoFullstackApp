@@ -14,4 +14,7 @@ public class Todo {
 
     @Column(name = "task")
     private String task;
+
+    @Column(name = "done")
+    private boolean done;
 }

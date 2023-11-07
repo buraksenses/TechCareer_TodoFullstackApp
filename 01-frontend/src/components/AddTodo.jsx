@@ -1,33 +1,55 @@
+import { apiClient } from "./service/TodoService";
+
 const AddTodo = ({
   newTodo,
   setNewTodo,
-  todoList,
+  todos,
   setTodos,
   updateTodo,
   setUpdateTodo,
   updatingTodo,
-  id,
-  setId,
 }) => {
-  function handleAddNewTodo() {
-    todoList.push({
-      id: id,
-      task: newTodo.toString(),
-      isDone: false,
-    });
-    setTodos(todoList);
+  const handleAddNewTodo = async () => {
+    try {
+      const response = await apiClient.post("/todos", {
+        task: newTodo,
+        done: false,
+      });
+
+      const newTodoWithId = response.data; // Sunucudan dönen todo nesnesi, ID içerir.
+      setTodos([...todos, newTodoWithId]);
+      setNewTodo(""); // Yeni todo eklendikten sonra inputu temizle
+    } catch (error) {
+      console.error("Todo eklenirken bir hata oluştu:", error);
+    }
     setNewTodo("");
-    setId(id + 1);
-  }
+  };
 
   function handleCancelUpdate() {
     setUpdateTodo(!updateTodo);
     setNewTodo("");
   }
 
-  function handleUpdateTodo() {
-    updatingTodo.task = newTodo;
-    setNewTodo("");
+  async function handleUpdateTodo() {
+    const updatedTodos = [...todos];
+    const updatingTodoIndex = updatedTodos.findIndex(
+      (t) => t.id === updatingTodo.id
+    );
+    const newTodoContent = {
+      id: updatingTodo.id,
+      task: newTodo,
+      done: false,
+    };
+    updatedTodos[updatingTodoIndex] = newTodoContent;
+    await apiClient
+      .put(`todos/${updatingTodo.id}`, newTodoContent)
+      .then((response) => {
+        setNewTodo("");
+        setUpdateTodo(false);
+        setTodos(updatedTodos);
+        console.log(response.data);
+      })
+      .catch((error) => console.error(error));
   }
   return (
     <div className="add-todo-container">

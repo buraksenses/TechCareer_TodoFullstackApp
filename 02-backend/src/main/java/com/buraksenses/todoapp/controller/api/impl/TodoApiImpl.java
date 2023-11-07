@@ -19,7 +19,7 @@ public class TodoApiImpl implements ITodoApi<Todo> {
 
     @Override
     @PostMapping("/todos")
-    public ResponseEntity<?> registerApiCreate(Todo todo) {
+    public ResponseEntity<?> registerApiCreate(@RequestBody Todo todo) {
         return ResponseEntity.ok(iTodoServices.todoServiceCreate(todo));
     }
 
@@ -38,12 +38,12 @@ public class TodoApiImpl implements ITodoApi<Todo> {
     @Override
     @PutMapping("/todos/{id}")
     public ResponseEntity<?> registerApiUpdate(@PathVariable(name = "id") Long id, @RequestBody Todo todo) {
-        return ResponseEntity.status(200).body(iTodoServices.todoServiceFindById(id));
+        return ResponseEntity.status(200).body(iTodoServices.todoServiceUpdate(id,todo));
     }
 
     @Override
     @DeleteMapping("/todos/{id}")
     public ResponseEntity<?> registerApiDeleteById(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(iTodoServices.todoDeleteById(id));
+        return ResponseEntity.status(200).body(iTodoServices.todoDeleteById(id));
     }
 }

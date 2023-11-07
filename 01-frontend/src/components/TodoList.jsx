@@ -3,7 +3,6 @@ import Todo from "./Todo";
 import { apiClient } from "./service/TodoService";
 
 const TodoList = ({
-  todoList,
   todos,
   setTodos,
   setNewTodo,
@@ -12,58 +11,84 @@ const TodoList = ({
 }) => {
   const [selectedTodo, setSelectedTodo] = useState(false);
 
-  function handleSetIsDone(id) {
+  async function handleSetDone(id, doneValue) {
     const updatedTodos = [...todos];
-    const foundTodo = updatedTodos.find((t) => t.id === id);
-    if (foundTodo) {
-      foundTodo.isDone = !foundTodo.isDone;
+    const foundTodoIndex = updatedTodos.findIndex((t) => t.id === id);
+
+    if (foundTodoIndex !== -1) {
+      // foundTodo'yu güncelleyin
+      updatedTodos[foundTodoIndex].done = doneValue;
+
+      try {
+        // API isteğini bekleyin ve güncelleme yapın
+        await apiClient.put(`todos/${id}`, {
+          task: updatedTodos[foundTodoIndex].task,
+          done: doneValue,
+        });
+        setTodos(updatedTodos); // API başarılı olursa güncelleme yapılır
+      } catch (error) {
+        console.error(error); // Hata işleme
+        // API isteği başarısız oldu, burada gerektiğiniz şekilde kullanıcıya bilgi verebilirsiniz
+      }
     }
-    setTodos(updatedTodos);
   }
 
-  function handleGetDoneTodos() {
-    setTodos(() => todoList.filter((todo) => todo.isDone));
+  async function handleGetUndoneTodos() {
+    await apiClient.get("/todos").then((response) => {
+      console.log(response.data.filter((todo) => !todo.done));
+      setTodos(response.data.filter((todo) => !todo.done));
+    });
+  }
+  async function handleGetDoneTodos() {
+    await apiClient.get("/todos").then((response) => {
+      console.log(response.data);
+      setTodos(response.data.filter((todo) => todo.done));
+    });
   }
 
-  function handleGetUndoneTodos() {
-    setTodos(() => todoList.filter((todo) => !todo.isDone));
+  async function handleGetAllTodos() {
+    await apiClient.get("/todos").then((response) => {
+      console.log(response.data);
+      setTodos(response.data);
+    });
   }
 
-  function handleGetAllTodos() {
-    setTodos(todoList);
+  async function handleDeleteTodo(id) {
+    await apiClient
+      .delete(`todos/${id}`)
+      .then(setTodos(() => todos.filter((todo) => id !== todo.id)))
+      .catch((error) => console.error(error));
   }
 
-  function handleDeleteTodo(id) {
-    setTodos(() => todoList.filter((todo) => id !== todo.id));
-    todoList = todoList.filter((todo) => todo.id !== id);
-  }
-
+  //Todo icinde bulunan kalem simgesine tiklandiginda
+  //input alanina o todo objesinin bilgisini getirir.
   function handleUpdateTodo(id) {
-    setNewTodo(todoList.find((todo) => todo.id === id).task);
+    setNewTodo(todos.find((todo) => todo.id === id).task);
     setUpdateTodo(false);
   }
 
-  function handleSetUpdatingTodo(id) {
-    setUpdatingTodo(todoList.find((todo) => todo.id === id));
-  }
-
+  //Uzerine tiklanan todo objesini selectedtodo degerine atar
   function handleSelectedTodo(id) {
     if (selectedTodo.id !== id) {
-      setSelectedTodo(todoList.find((todo) => todo.id === id));
+      setSelectedTodo(todos.find((todo) => todo.id === id));
+      setUpdatingTodo(todos.find((todo) => todo.id === id));
     } else {
       setSelectedTodo(<Todo />);
     }
   }
 
-  useEffect(function () {
-    async function getTodos() {
-      await apiClient.get("/todos").then((response) => {
-        console.log(response.data);
-        setTodos(response.data);
-      });
-    }
-    getTodos();
-  }, []);
+  useEffect(
+    function () {
+      async function getTodos() {
+        await apiClient.get("/todos").then((response) => {
+          console.log(response.data);
+          setTodos(response.data);
+        });
+      }
+      getTodos();
+    },
+    [setTodos]
+  );
 
   return (
     <div>
@@ -81,15 +106,16 @@ const TodoList = ({
             <li key={todo.id}>
               <Todo
                 id={todo.id}
-                isDone={todo.isDone}
-                setIsDone={handleSetIsDone}
                 task={todo.task}
+                done={todo.done}
+                setDone={handleSetDone}
                 deleteTodo={handleDeleteTodo}
                 updateTodo={handleUpdateTodo}
                 setCanUpdate={setUpdateTodo}
-                setUpdatingTodo={handleSetUpdatingTodo}
                 selectedTodo={selectedTodo}
                 setSelectedTodo={handleSelectedTodo}
+                todos={todos}
+                setUpdatingTodo={setUpdatingTodo}
               />
             </li>
           ))}
@@ -97,8 +123,12 @@ const TodoList = ({
       </div>
 
       <div className="todo-list-bottom-buttons">
-        <button onClick={() => handleSetIsDone(selectedTodo.id)}>Done</button>
-        <button onClick={() => handleSetIsDone(selectedTodo.id)}>Todo</button>
+        <button onClick={() => handleSetDone(selectedTodo.id, true)}>
+          Done
+        </button>
+        <button onClick={() => handleSetDone(selectedTodo.id, false)}>
+          Todo
+        </button>
       </div>
     </div>
   );
