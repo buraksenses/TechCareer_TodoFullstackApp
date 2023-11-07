@@ -16,9 +16,9 @@ const AddTodo = ({
         done: false,
       });
 
-      const newTodoWithId = response.data; // Sunucudan dönen todo nesnesi, ID içerir.
+      const newTodoWithId = response.data;
       setTodos([...todos, newTodoWithId]);
-      setNewTodo(""); // Yeni todo eklendikten sonra inputu temizle
+      setNewTodo("");
     } catch (error) {
       console.error("Todo eklenirken bir hata oluştu:", error);
     }

@@ -16,19 +16,16 @@ const TodoList = ({
     const foundTodoIndex = updatedTodos.findIndex((t) => t.id === id);
 
     if (foundTodoIndex !== -1) {
-      // foundTodo'yu güncelleyin
       updatedTodos[foundTodoIndex].done = doneValue;
 
       try {
-        // API isteğini bekleyin ve güncelleme yapın
         await apiClient.put(`todos/${id}`, {
           task: updatedTodos[foundTodoIndex].task,
           done: doneValue,
         });
-        setTodos(updatedTodos); // API başarılı olursa güncelleme yapılır
+        setTodos(updatedTodos);
       } catch (error) {
-        console.error(error); // Hata işleme
-        // API isteği başarısız oldu, burada gerektiğiniz şekilde kullanıcıya bilgi verebilirsiniz
+        console.error(error);
       }
     }
   }
@@ -101,7 +98,6 @@ const TodoList = ({
 
       <div className="todo-list">
         <ul>
-          {/* Database verilerine gore listelenecek. */}
           {todos.map((todo) => (
             <li key={todo.id}>
               <Todo
