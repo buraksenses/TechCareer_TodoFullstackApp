@@ -4,7 +4,6 @@ import com.buraksenses.todoapp.business.service.ITodoServices;
 import com.buraksenses.todoapp.controller.api.ITodoApi;
 import com.buraksenses.todoapp.data.entity.Todo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,31 +18,31 @@ public class TodoApiImpl implements ITodoApi<Todo> {
 
     @Override
     @PostMapping("/todos")
-    public ResponseEntity<?> registerApiCreate(@RequestBody Todo todo) {
+    public ResponseEntity<?> todoApiCreate(@RequestBody Todo todo) {
         return ResponseEntity.ok(iTodoServices.todoServiceCreate(todo));
     }
 
     @Override
     @GetMapping("/todos/{id}")
-    public ResponseEntity<?> registerApiFindById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> todoApiFindById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok().body(iTodoServices.todoServiceFindById(id));
     }
 
     @Override
     @GetMapping("/todos")
-    public ResponseEntity<?> registerApiFindAll() {
+    public ResponseEntity<?> todoApiFindAll() {
         return ResponseEntity.ok().body(iTodoServices.todoServiceFindAll());
     }
 
     @Override
     @PutMapping("/todos/{id}")
-    public ResponseEntity<?> registerApiUpdate(@PathVariable(name = "id") Long id, @RequestBody Todo todo) {
+    public ResponseEntity<?> todoApiUpdate(@PathVariable(name = "id") Long id, @RequestBody Todo todo) {
         return ResponseEntity.status(200).body(iTodoServices.todoServiceUpdate(id,todo));
     }
 
     @Override
     @DeleteMapping("/todos/{id}")
-    public ResponseEntity<?> registerApiDeleteById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> todoApiDeleteById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(200).body(iTodoServices.todoDeleteById(id));
     }
 }

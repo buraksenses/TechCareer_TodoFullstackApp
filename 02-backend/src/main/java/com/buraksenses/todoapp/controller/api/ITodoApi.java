@@ -6,17 +6,17 @@ import org.springframework.http.ResponseEntity;
 public interface ITodoApi<E>{
     // C R U D
     // CREATE
-    public ResponseEntity<?> registerApiCreate(E e);
+    public ResponseEntity<?> todoApiCreate(E e);
 
     // FIND
-    public ResponseEntity<?> registerApiFindById(Long id);
+    public ResponseEntity<?> todoApiFindById(Long id);
 
-    public ResponseEntity<?> registerApiFindAll();
+    public ResponseEntity<?> todoApiFindAll();
 
     // UPDATE
-    public ResponseEntity<?> registerApiUpdate(Long id, E e);
+    public ResponseEntity<?> todoApiUpdate(Long id, E e);
 
     // DELETE
-    public ResponseEntity<?> registerApiDeleteById(Long id);
+    public ResponseEntity<?> todoApiDeleteById(Long id);
 
 }
